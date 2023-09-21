@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎤 Measure Microphone Volume</title>
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    #container {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+
+    #bar {
+      height: 100%;
+      width: 0%;
+      background-color: rgb(165, 220, 247);
+    }
+
+    #output {
+      position: absolute;
+      right: 3%;
+      bottom: 3%;
+      text-align: right;
+      font-size: 5rem;
+
+    }
+
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="bar"></div>
+
+    <div id="output">
+      <div id="volume"></div>
+      <div id="avgVolume"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { measureMicrophoneVolume } from './src/measure.js';
+
+    const bar = document.getElementById('bar');
+    const volumeOutput = document.getElementById('volume');
+    const avgVolumeOutput = document.getElementById('avgVolume');
+
+    measureMicrophoneVolume(volume => {
+      bar.style.width = `${volume.avg * 100}%`;
+      volumeOutput.innerText = `${Math.round(volume.value * 100)}%`;
+      avgVolumeOutput.innerText = `${Math.round(volume.avg * 100)}%`;
+    });
+  </script>
+</body>
+</html>
